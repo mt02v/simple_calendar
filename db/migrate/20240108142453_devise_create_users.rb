@@ -31,7 +31,11 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.1]
       # t.integer  :failed_attempts, default: 0, null: false # Only if lock strategy is :failed_attempts
       # t.string   :unlock_token # Only if unlock strategy is :email or :both
       # t.datetime :locked_at
-
+      t.datetime "created_at", precision: 6, null: false
+      t.datetime "updated_at", precision: 6, null: false
+      t.string "name", null: false
+      t.index ["email"], name: "index_users_on_email", unique: true
+      t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
 
       t.timestamps null: false
     end
@@ -40,5 +44,6 @@ class DeviseCreateUsers < ActiveRecord::Migration[6.1]
     add_index :users, :reset_password_token, unique: true
     # add_index :users, :confirmation_token,   unique: true
     # add_index :users, :unlock_token,         unique: true
+    add_foreign_key "reservations", "users"
   end
 end
